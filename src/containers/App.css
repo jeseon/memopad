@@ -1,0 +1,16 @@
+.page-transition-enter {
+    opacity: 0;
+    position: absolute;
+    transition: opacity 500ms ease-in-out;
+}
+.page-transition-enter.page-transition-enter-active {
+    opacity: 1;
+}
+.page-transition-leave {
+    opacity: 1;
+    position: absolute;
+    transition: opacity 500ms ease-in-out;
+}
+.page-transition-leave.page-transition-leave-active {
+    opacity: 0;
+}
