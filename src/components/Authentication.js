@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
@@ -40,51 +40,61 @@ const style = {
     }
 };
 
-const paperHasTitle = ({ title, form }) => (
-    <Paper style={style.paper}>
-        <div style={style.titleWrap}>
-            <div style={style.title}>{ title }</div>
-        </div>
-        <div style={style.content}>
-            { form }
-        </div>
-    </Paper>
-)
+class Authentication extends Component {
+    state = {
+        userid: '',
+        passwd: ''
+    }
 
-const loginForm = (
-    <div>
-        <TextField floatingLabelText="Username"/><br/>
-        <TextField floatingLabelText="Password" type="password"/><br/>
-        <RaisedButton primary={true} label="Login" fullWidth={true} style={style.button}/>
-        <Divider/>
-        <div style={style.tailWrap}>
-            <div style={style.tail}>
-                <Link to="/signup">Create an account</Link>
+    handleSignup = () => {
+        let id = this.state.userid;
+        let pw = this.state.passwd;
+
+        this.props.onSignup(id, pw);
+    }
+
+    loginView = () => (
+        <Paper style={style.paper}>
+            <div style={style.titleWrap}>
+                <div style={style.title}>LOGIN</div>
             </div>
-        </div>
-    </div>
-);
+            <div style={style.content}>
+                <div>
+                    <TextField floatingLabelText="Username" value={this.state.userid}/><br/>
+                    <TextField floatingLabelText="Password" value={this.state.passwd} type="password"/><br/>
+                    <RaisedButton primary={true} label="Submit" fullWidth={true} style={style.button}/>
+                    <Divider/>
+                    <div style={style.tailWrap}>
+                        <div style={style.tail}>
+                            <Link to="/signup">Create an account</Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Paper>
+    );
 
-const registerForm = (
-    <div>
-        <TextField floatingLabelText="Username"/><br/>
-        <TextField floatingLabelText="Password" type="password"/><br/>
-        <RaisedButton primary={true} label="Create" fullWidth={true} style={style.button}/>
-    </div>
-);
+    registerView = () => (
+        <Paper style={style.paper}>
+            <div style={style.titleWrap}>
+                <div style={style.title}>SIGN UP</div>
+            </div>
+            <div style={style.content}>
+                <div>
+                    <TextField floatingLabelText="Username" value={this.state.userid}/><br/>
+                    <TextField floatingLabelText="Password" value={this.state.passwd} type="password"/><br/>
+                    <RaisedButton primary={true} label="Create" fullWidth={true} style={style.button}
+                                  onTouchTap={this.handleSignup}/>
+                </div>
+            </div>
+        </Paper>
+    );
 
-const loginView = paperHasTitle({
-    title: 'LOGIN',
-    form: loginForm
-});
-
-const registerView = paperHasTitle({
-    title: 'SIGN UP',
-    form: registerForm
-});
-
-const Authentication = ({ mode }) => (
-    mode ? loginView : registerView
-);
+    render() {
+        return (
+            this.props.mode ? this.loginView() : this.registerView()
+        );
+    }
+}
 
 export default Authentication;
